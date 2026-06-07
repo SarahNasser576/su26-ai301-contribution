@@ -1,15 +1,15 @@
-# Contribution [#]: [Issue Title]
+# Contribution [1]: [Wynntils shows "ghost queues" for territories with similar names]
 
-**Contribution Number:** [1 / 2 / 3]  
-**Student:** [Your Name]  
-**Issue:** [GitHub issue link]  
-**Status:** [Phase I / Phase II / Phase III / Phase IV] [In Progress / Complete]
+**Contribution Number:** [1]
+**Student:** [Sarah Nasser]  
+**Issue:** [https://github.com/Wynntils/Wynntils/issues/3180]  
+**Status:** [Phase I] [Complete]
 
 ---
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs explaining why this issue interests you, how it matches your skills/learning goals, what you hope to learn]
+This issue interests me because Wynntils is a Wynncraft Mod that gamers can play. I find it very cool to contribute to a video game that is played by many people. I cannot wait to learn more about Wynntils, fix this issue, and improve gameplay. This issue also matches my skills and requires knowledge of Java and Shell. I am skilled in Java, and I will be able to learn Shell within a few days. There are also clear instructions in this project's README.md on how to access Wynntils and set up the code environment, and a Discord chat is also available if I have any questions while working on this issue within the next few weeks. This issue is also bounded and specific, and no one has claimed it. There are no open pull requests already solving it, and there is one comment that provided hints and insight on the issue. When contributing to this issue, I hope to learn Shell, gain experience in setting up a code environment, and practice using the codebase and Claude Code to understand which section of the code may be resulting in the issue and how I can approach the issue.
 
 ---
 
