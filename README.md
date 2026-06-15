@@ -17,21 +17,19 @@ This issue interests me because Wynntils is a Wynncraft Mod that gamers can play
 
 ### Problem Description
 
-[In your own words, what's broken or missing?]
+Numerous issues occur when using OpenBLAS to implement Singular Value Decomposition (SVD) across different systems.
 
 ### Expected Behavior
 
-[What should happen?]
+I should implement SVD in Rust without using openblas-src as a dependency.
 
 ### Current Behavior
 
-[What actually happens?]
+The package depends on OpenBLAS to compute SVD for the Optimized Product Quantization (OPQ) indexing process. This dependency results in many issues when building OpenBLAS in different systems.
 
 ### Affected Components
 
-[Which parts of the codebase are involved?]
-
----
+None of the files in the codebase contain an attempted SVD implementation. It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I will need to create a file in the codebase in which I compute SVD in Rust without using openblas-src as a dependency.
 
 ## Reproduction Process
 
@@ -41,9 +39,7 @@ This issue interests me because Wynntils is a Wynncraft Mod that gamers can play
 
 ### Steps to Reproduce
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
+It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I may need to create in Rust a SVD implementation from scratch that does not depend on OpenBLAS. Therefore, I will be creating a new feature from scratch and there is no existing bug for me to trigger. However, I know from the issue description that building OpenBLAS in different systems and using it as a dependency when implementing SVD will cause problems. However, because there is no issue for me to visually reproduce and the issue description or comments do not specify what exactly these problems are, I do not know what these problems are. I will simply implement SVD in Rust without depending on OpenBLAS so I can minimize problems that occur across different systems.
 
 ### Reproduction Evidence
 
@@ -57,11 +53,11 @@ This issue interests me because Wynntils is a Wynncraft Mod that gamers can play
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+Using OpenBLAS as a dependency in SVD implementation results in problems in different systems. However, due to limited information from the issue description on what these problems are or why depending on OpenBLAS causes them, I cannot give a more specific analysis of the root cause.
 
 ### Proposed Solution
 
-[High-level description of your fix approach]
+Despite limited information (see my analysis of the root cause for the issue) in the issue statement, I believe I can solve this issue by simply implementing SVD in Rust without depending on OpenBLAS. First, I will Google search and learn about the SVD algorithm. A commenter gave the link to a possible SVD implementation that can be used. This link does not work, so I will later check whether there is some other way I can access the link. If I cannot access this link, I will simply use a different website on the SVD algorithm. This same commenter does not have a strong opinion on how to implement SVD. Even though this commenter is not sure whether a different SVD implementation will cause major differences in output, they approved of a different commenter's suggestion to write a pure-Rust implementation, so the second step in my approach will be learn Rust through Claude Code and ask it for strategies and tips on implementing SVD solely using Rust without using OpenBLAS as a dependency.
 
 ### Implementation Plan
 
