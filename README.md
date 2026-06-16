@@ -25,27 +25,27 @@ I should implement SVD in Rust without using openblas-src as a dependency.
 
 ### Current Behavior
 
-The package depends on OpenBLAS to compute SVD for the Optimized Product Quantization (OPQ) indexing process. This dependency results in many issues when building OpenBLAS in different systems.
+When computing SVD for the Optimized Product Quantization (OPQ) indexing process, many issues occur in building and using OpenBLAS as a dependency in different systems.
 
 ### Affected Components
 
-None of the files in the codebase contain an attempted SVD implementation. It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I will need to create a file in the codebase in which I compute SVD in Rust without using openblas-src as a dependency.
+None of the files in the codebase contain an attempted SVD implementation. It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I will need to create a new file named svd.rs in the directory rust/lance-linalg/src/. In this new file, I will compute SVD using Rust and without using openblas-src as a dependency.
 
 ## Reproduction Process
 
 ### Environment Setup
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+To set up my local development environment, I installed VS Code, Rust, Python version 3.9+, Pylance, protocol buffers, commit hooks, and the Dev Containers extension. Installing VS Code, Rust, Python version 3.9+, and Pylance was easy and straightforward, and to install both these languages, I simply used the links the maintainer provided for the development environment. Links were also provided for installing protocol buffers, commit hooks, and the Dev Containers extension, but I still struggled with installing these three tools because the instructions were more confusing and I have never installed them before for a previous project. To understand how to install commit hooks, protocol buffers, and the Dev Containers extension, I discussed installation errors I got in the terminal with Claude Code and asked it how to resolve these errors.
 
 ### Steps to Reproduce
 
-It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I may need to create in Rust a SVD implementation from scratch that does not depend on OpenBLAS. Therefore, I will be creating a new feature from scratch and there is no existing bug for me to trigger. However, I know from the issue description that building OpenBLAS in different systems and using it as a dependency when implementing SVD will cause problems. However, because there is no issue for me to visually reproduce and the issue description or comments do not specify what exactly these problems are, I do not know what these problems are. I will simply implement SVD in Rust without depending on OpenBLAS so I can minimize problems that occur across different systems.
+It seems that the attempted SVD implementation that depends on OpenBLAS has been removed, so I may need to create in Rust a SVD implementation from scratch that does not depend on OpenBLAS. Therefore, I will be creating a new feature from scratch and there is no existing bug for me to trigger. However, I know from the issue description that building OpenBLAS in different systems and using it as a dependency when implementing SVD will cause problems. However, because there is no issue for me to reproduce and the issue description or comments do not specify what exactly these problems are, I do not know what these problems are. I will simply implement SVD in Rust without depending on OpenBLAS so I can minimize problems that occur across different systems.
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** https://github.com/SarahNasser576/lance/commit/1983fc90fe32b4ef3ff2881761ca363a3839ff3b
+- **Screenshots/logs:** N/A
+- **My findings:** The attempted SVD implementation that depends on OpenBLAS has been removed and neither the post nor the commentds state which specific problems depending on OpenBLAS causes. Thus, I discovered that there is no issue for me to reproduce. I will be creating a SVD implementation from scratch in Rust without depending on OpenBLAS, explaining why my commit "showing reproduction" is simply a commit depicting that I created a new empty file named svd.rs in the directory rust/lance-linalg/src/. In this new file, I will be coding my SVD implementation.
 
 ---
 
@@ -57,26 +57,39 @@ Using OpenBLAS as a dependency in SVD implementation results in problems in diff
 
 ### Proposed Solution
 
-Despite limited information (see my analysis of the root cause for the issue) in the issue statement, I believe I can solve this issue by simply implementing SVD in Rust without depending on OpenBLAS. First, I will Google search and learn about the SVD algorithm. A commenter gave the link to a possible SVD implementation that can be used. This link does not work, so I will later check whether there is some other way I can access the link. If I cannot access this link, I will simply use a different website on the SVD algorithm. This same commenter does not have a strong opinion on how to implement SVD. Even though this commenter is not sure whether a different SVD implementation will cause major differences in output, they approved of a different commenter's suggestion to write a pure-Rust implementation, so the second step in my approach will be learn Rust through Claude Code and ask it for strategies and tips on implementing SVD solely using Rust without using OpenBLAS as a dependency.
+Despite limited information (see my analysis of the root cause for the issue) in the issue statement, I believe I can solve this issue by simply implementing SVD in Rust without depending on OpenBLAS. First, I will Google search and learn about the SVD algorithm. Next, I will implement all steps in the SVD algorithm in Rust without using OpenBLAS as a dependency.
 
 ### Implementation Plan
 
 Using UMPIRE framework (adapted):
 
-**Understand:** [Restate the problem]
+**Understand:** When computing SVD for the Optimized Product Quantization (OPQ) indexing process, many issues occur in building and using OpenBLAS as a dependency in different systems. I should implement SVD in Rust without using OpenBLAS as a dependency.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+**Match:** The file rust/lance-index/src/vector/bq/builder.rs have a few functions that are similar to my issue. These functions are:
+- householder_qr(), which performs a QR decomposition of matrices using only Rust, is relevant to SVD because QR decomposition is one of the building blocks used in iterative SVD algorithms.
+- random_orthogonal(), which uses the QR decomposition to generate orthogonal matrices, is relevant to SVD because the two output matrices from SVD are orthogonal matrices. Unlike random_orthogonal(), the SVD implementation should produce the two output matrices from the input and not randomly.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+Code from householder_qr() that does something similar to what I need (My SVD implementation will use a very similar bidiagonalization step as the one shown by this code from householder_qr()):
+let sign = if x[0] >= 0.0 { 1.0 } else { -1.0 };
+        x[0] += sign * x_norm;
+        let u = &x / x.dot(&x).sqrt();
 
-**Implement:** [Link to your branch/commits as you work]
+and
 
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
+let h = ndarray::Array2::eye(m - k) - 2.0 * u_outer;
 
-**Evaluate:** [How will you verify it works?]
+Code from random_orthogonal() that does something similar to what I need (Q here is an orthogonal matrix, and my SVD implementation will decompose a matrix into three matrices, which includes an orthogonal matrix and the transpose of a different orthogonal matrix):
+let (q, _) = householder_qr(a);
+
+**Plan:**
+1. Google search and learn about the SVD algorithm
+2. Implement all steps in the SVD algorithm using Rust and without using OpenBLAS as a dependency
+
+**Implement:** Link to my branch/commits as I work: https://github.com/SarahNasser576/lance/commits/fix-issue-SVDImplementation
+
+**Review:** I should include corresponding tests in my pull request. Code without tests will not be merged.
+
+**Evaluate:** I will Google search practice problems and solutions where the SVD algorithm used in my code is performed on matrices. I will compare these solutions to my program's output. This project does not require automated testing.
 
 ---
 
