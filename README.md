@@ -119,9 +119,12 @@ let (q, _) = householder_qr(a);
 
 ## Implementation Notes
 
-### Week [X] Progress
+### Week 3 Progress
 
-[What you built this week, challenges faced, decisions made]
+In week 3, I implemented an SVD algorithm in Rust without using OpenBLAS as a dependency. Claude Code was helpful when learning how to implement this algorithm in Rust, especially because I am new to Rust. One integration test was not working, so I shared my code with Claude and asked it why that test was not working. Claude told me that my algorithm does not cover all the eigenvalues and that it does not sort the eigenvalues before picking the top k eigenvalues. As a result, parts of my implementation were using the wrong indices. Claude also showed me how I can sort all the eigenvalues first and then take the top k eigenvalues. After implementing the SVD algorithm, I decided to include input validation so that my algorithm runs only if the three statements below are all true:
+- The input matrix has at least 1 row and at least 1 column.
+- The data length of the input matrix matches the product of the specified number of rows and number of columns.
+- The input matrix does not contain null or infinite entries.
 
 ### Week [Y] Progress
 
