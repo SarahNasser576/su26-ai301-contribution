@@ -102,15 +102,15 @@ let (q, _) = householder_qr(a);
 
 ### Unit Tests
 
-- [ ] Test case 1: [Description]
-- [ ] Test case 2: [Description]
-- [ ] Test case 3: [Description]
+- Test case 1: Ran the function multiply_A_by_vector with the input: A = [5 7, -1 4], x = [-9, -2], m = 2, n = 2. Current and expected output: [-59, 1]. Test passed.
+- Test case 2: Ran the function compute_ata with the input: A = [3 2 -4 7, -2 -1 5 4], m = 2, n = 4. Current and expected output: [13 8 -22 13, 8 5 -13 10, -22 -13 41 -8, 13 10 -8 65]. Test passed.
+- Test case 3: Ran the function create_identity_matrix with the input: n = 5. Current and expected output: [1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0, 0 0 0 0 1]. Test passed.
 
 ### Integration Tests
 
-- [ ] Integration scenario 1
-- [ ] Integration scenario 2
-
+- Integration scenario 1: input matrix A = [3.0, 2.0, 2.0, 2.0, 3.0, -2.0], m = 2, n = 3. Current and expected output: sigma values are 5 and 3; U matrix = [0.7071 0.7071, 0.7071 -0.7071], V^T matrix = [0.7071 0.7071 0, 0.2357 -0.2357 0.9428, 0.6667 -0.6667 -0.3333]. Test passed.
+- Integration scenario 2: input matrix A = [7.0, -4.0, 5.0, 5.0, 8.0, -2.0, -10.0, 1.0, -1.0, -8.0, 9.0, 3.0, 8.0, 7.0, -3.0, 4.0], m = 4, n = 4. Current and expected output: sigma values are 17.834861, 13.682368, 8.433152, and 0.769723; U matrix = [0.1103 0.7669 0.1056 -0.6233, -0.5973 0.3163 -0.7191 0.1617, 0.5994 0.4553 -0.1537 0.6402, -0.5214 0.3233 0.6695 0.4189], V^T = [-0.4921 -0.4312 0.7560 -0.0187, 0.7330 -0.3713 0.2777 0.4977, 0.0588 0.8219 0.5131 0.2402, -0.4659 -0.0249 -0.2968 0.8332]. Test passed.
+  
 ### Manual Testing
 
 [What you tested manually and results]
@@ -132,9 +132,9 @@ In week 3, I implemented an SVD algorithm in Rust without using OpenBLAS as a de
 
 ### Code Changes
 
-- **Files modified:** [List]
-- **Key commits:** [Links to important commits]
-- **Approach decisions:** [Why you chose certain approaches]
+- **Files modified:** I created and coded in a new file called svd.rs.
+- **Key commits:** https://github.com/SarahNasser576/lance/commit/0cea39f1b3ca714f20f1042ac0d88c67688abc02, https://github.com/SarahNasser576/lance/commit/e26009ac6cd75d77264131ca18b71f94e3decb62, https://github.com/SarahNasser576/lance/commit/71fc8cb55cac34382cfada82e90aaf6088bafede, https://github.com/SarahNasser576/lance/commit/52972c8d68e279544daac006bbc435de4e746a6e
+- **Approach decisions:** I chose to call built-in math functions rather than creating them from scratch in my code for simplicity purposes and to make my code more readable. I included input validation as I described in the paragraph above on my week 3 progress because it cannot be assumed that the user will always use valid input matrices (i.e., matrices with at least 1 row and at least 1 column, only non-null or finite entries, and a data length equal to the product of its number of rows and number of columns). I did not use OpenBLAS as a dependency because the maintainer specifically requested to not depend on it in the SVD implementation. Building and using OpenBLAS as a dependency would have resulted in problems across different systems. None of the maintainers did not specify what these problems are.
 
 ---
 
