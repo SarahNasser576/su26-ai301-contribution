@@ -3,7 +3,7 @@
 **Contribution Number:** [1]
 **Student:** [Sarah Nasser]  
 **Issue:** [https://github.com/lance-format/lance/issues/984]  
-**Status:** [Phase 3] [Complete]
+**Status:** [Phase 4] [In Progress]
 
 ---
 
@@ -17,7 +17,7 @@ I chose this issue because I am interested in Linear Algebra and its real-world 
 
 ### Problem Description
 
-Numerous issues occur when using OpenBLAS to implement Singular Value Decomposition (SVD) across different systems.
+Numerous issues occur when using OpenBLAS to implement singular value decomposition (SVD) across different systems.
 
 ### Expected Behavior
 
@@ -149,15 +149,13 @@ In week 3, I implemented an SVD algorithm in Rust without using OpenBLAS as a de
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when submitted]
+**PR Link:** https://github.com/lance-format/lance/pull/7518
 
-**PR Description:** [Draft or final PR description - much of the content above can be adapted]
+**PR Description:** This PR implements the classical eigendecomposition singular value decomposition (SVD) algorithm in Rust without using OpenBLAS as a dependency.
 
-**Maintainer Feedback:**
-- [Date]: [Summary of feedback received]
-- [Date]: [How you addressed it]
+**Maintainer Feedback:** I did not receive maintainer feedback yet.
 
-**Status:** [Awaiting review / Iterating / Approved / Merged]
+**Status:** Awaiting review
 
 ---
 
@@ -165,15 +163,15 @@ In week 3, I implemented an SVD algorithm in Rust without using OpenBLAS as a de
 
 ### Technical Skills Gained
 
-[What you learned technically]
+This is the first time I coded in Rust. I learned how to implement singular value decomposition (SVD) in Rust without using OpenBLAS as a dependency.
 
 ### Challenges Overcome
 
-[What was hard and how you solved it]
+I am new to Rust, so it was difficult knowing how to code an algorithm as complex as SVD in Rust. To code SVD in Rust, I asked Claude Code for help to study Rust syntax and understand what code I will need to implement SVD without depending on OpenBLAS. Additionally, one of my integration tests was not working. To pass this test, I shared my code with Claude and asked it why that test was not working. Claude told me that my algorithm did not cover all the eigenvalues and did not sort the eigenvalues before picking the top k eigenvalues. Claude also showed me how I could sort all the eigenvalues first and then take the top k eigenvalues.
 
 ### What I'd Do Differently Next Time
 
-[Reflection on your process]
+Next time, I will write a more detailed step-by-step plan before I start coding (i.e., what are the steps of the algorithm I am trying to implement).
 
 ---
 
