@@ -153,9 +153,26 @@ In week 3, I implemented an SVD algorithm in Rust without using OpenBLAS as a de
 
 **PR Description:** This PR implements the classical eigendecomposition singular value decomposition (SVD) algorithm in Rust without using OpenBLAS as a dependency.
 
-**Maintainer Feedback:** I did not receive maintainer feedback yet.
+**Maintainer Feedback:**
 
-**Status:** Awaiting review
+- July 8, 2026: Feedback I received
+
+  - Feedback Comment #1: YAMLlint flagged extra spaces in pre-commit-config.yaml. If this config is linted in continuous integration (CI), the config will fail before the hooks are usable.
+  - Feedback Comment #2: My public API svd does not have real rustdoc comments (///) with an example of an input and output.
+  - Feedback Comment #3: My three input validation checks in my svd() function (checking that the input matrix A has at least one row and one column, checking that the data length of A matches the product of the specified number of rows and number of columns, checking that A does not contain null or infinite entries) print to stdout and fall through. Even though I later stopped execution when at least one of these three input validation checks fails, I did not stop execution immediately. In the case of a validation failure, I returned the three output vectors (U, sigma, and V^T) as empty vectors. As a result, callers cannot distinguish a validation failure from a genuine empty result. Additionally, stdout logging is inappropriate for libraries and I repeated my conditional statements for input validation multiple times. I was also told to replace ```a.len() == 0``` in my input validation checks with ```a.is_empty()```.
+
+- July 17, 2026: Feedback I received
+  - Feedback Comment #4: Overflowing dimensions (for example, ```m * n``` where m is the number of rows in the input matrix A and n is the number of columns) are not rejected before comparing A's length with ```m * n```.
+  - Feedback Comment #5: My Jacobi convergence logic was previously not aware of the scale of the input matrix A. Since each loop in the convergence logic performs only one rotation, the 100-iteration cap is not actually 100 sweeps, leaving bigger matrices significantly non-diagonalized. My absolute cuttoff for the number of sweeps (```EPS * 1e4```) also immediately rejects valid small-scale inputs such as ```A = [1e-5, 1e-5]``` (```m=1```, ```n=2```), resulting in no rotation and wrong singular values being returned due to ```A^T A``` having negligible off-diagonals.
+
+- July 17, 2026: Addressed all feedback comments I received (both on July 8,2026 and July 17,2026):
+  - I addressed Feedback Comment #1 by normalizing the YAML list indentation in pre-commit-config.yaml.
+  - I addressed Feedback Comment #2 by adding real rustdoc comments with an example of an input and output for the public API svd.
+  - I addressed Feedback Comment #3 by returning a Result with typed errors for any input to the svd() function, i.e., any input such that the input matrix A has neither rows nor columns, A contains null or infinite entries, or the data length of A does not equal the product of the specified number of rows and number of columns.
+  - I addressed Feedback Comment #4 by using ```checked_mul``` for ```m*n```, ```m*m```, and ```n*n``` before downstream indexing/allocation and by returning ```Error::invalid_input``` with ```m```, ```n```, and ```a.len()``` if ```n*n```, ```m*m```, or ```m*n``` overflowed.
+  - I addressed Feedback Comment #5 by updating the cutoff for Jacobi sweeps from ```EPS * 1e4``` to 100, using a relative tolerance based on the norm of the input matrix A, and performing full ```(p, q)``` sweeps/dimension-scaled iterations. I also returned an error if Jacobi convergence is not reached.
+
+**Status:** Iterating
 
 ---
 
